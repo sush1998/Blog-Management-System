@@ -105,27 +105,26 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ✅ Load all blogs
-    window.loadBlogs = async function(sortBy = "date") {  // ✅ Make it globally accessible
+    window.loadBlogs = async function(sortBy = "date") {  
         try {
             const response = await fetch(`/blogs?sort=${sortBy}`);
             const blogs = await response.json();
             blogsContainer.innerHTML = "";
-
+    
             blogs.forEach(async (blog) => {
                 const blogDiv = document.createElement("div");
                 blogDiv.classList.add("blog-post");
                 blogDiv.innerHTML = `
                     <h3>${blog.title}</h3>
-                    <hr>
                     <p>${blog.content}</p>
-                    <small>Posted by <strong class="blog-author-name">${blog.author_name}</strong> on: ${blog.timestamp}</small>
-                    <small> Comments: ${blog.comment_count}</small>
+                    <small>Posted by <strong>${blog.author_name}</strong> on: ${blog.timestamp}</small>
+                    <small> Comments: <strong>${blog.comment_count}</strong></small>
                     <br>
                     ${user_id == blog.author_id ? `
                     <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
                     <button onclick="deleteBlog(${blog.id})">Delete</button>
                     ` : ""}
-
+    
                     <div class="comment-section" id="comments-${blog.id}">
                         ${user_id ? `
                         <div class="comment-form">
@@ -136,14 +135,15 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="comment-list"></div>
                     </div>
                 `;
-
+    
                 blogsContainer.appendChild(blogDiv);
                 loadComments(blog.id);
             });
         } catch (error) {
-            console.error("Error loading blogs:", error);
+            console.error("❌ Error loading blogs:", error);
         }
     };
+    
     
 
     // ✅ Submit a blog

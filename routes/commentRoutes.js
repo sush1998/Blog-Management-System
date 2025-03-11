@@ -61,16 +61,6 @@ router.delete("/:id", (req, res) => {
     });
 });
 
-//EDIT A Comment
-router.put("/:id", (req, res) => {
-    const { comment_text, user_id } = req.body;
-    const commentId = req.params.id;
 
-    db.run("UPDATE comments SET comment_text = ? WHERE id = ? AND user_id = ?", 
-        [comment_text, commentId, user_id], (err) => {
-            if (err) return res.status(500).send("Error updating comment.");
-            res.send("Comment updated successfully.");
-        });
-});
 
 module.exports = router;
