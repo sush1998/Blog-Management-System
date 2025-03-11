@@ -1,298 +1,350 @@
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #f4f4f4;
+/* 🌑 Global Styling - Dark Theme */
+:root {
+    --primary-color: #1E1E2F;
+    --secondary-color: #292942;
+    --accent-color: #4A90E2;
+    --text-color: #E0E0E0;
+    --light-text: #A9A9B3;
+    --border-color: #3A3A52;
+    --button-hover: #357ABD;
+    --white-border: #ffffff;
 }
 
-header {
-    background: #333;
-    color: #fff;
-    padding: 10px;
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--primary-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 🌟 Centering Everything */
+.container {
+    width: 85%;
+    max-width: 700px;
+    margin: 20px auto;
+    padding: 15px;
+    background: var(--secondary-color);
+    border-radius: 6px;
+    
     text-align: center;
 }
 
+/* 📌 Header */
+header {
+    background: var(--secondary-color);
+    color: white;
+    padding: 12px;
+    text-align: center;
+    font-size: 1.3em;
+    font-weight: 600;
+    width: 100%;
+    box-shadow: 0px 3px 6px rgba(0, 0, 0, 0.3);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* 🚀 Authentication Section */
 #auth-section {
     display: flex;
     justify-content: center;
     gap: 10px;
+    margin-top: 8px;
 }
 
+/* 🎨 Buttons */
 button {
-    background: #007BFF;
+    background: var(--accent-color);
     color: white;
     border: none;
-    padding: 10px;
+    padding: 8px 12px;
+    font-size: 0.9em;
     cursor: pointer;
     border-radius: 5px;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
 }
 
 button:hover {
-    background: #0056b3;
+    background: var(--button-hover);
 }
 
-.hidden {
-    display: none;
+/* 🔹 User Controls Styling */
+#user-controls {
+    display: flex;
+    justify-content: space-between; /* Puts welcome message on the left, buttons on the right */
+    align-items: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 10px 15px;
+    background: var(--secondary-color);
+    border-radius: 6px;
 }
 
-#auth-form-container {
-    width: 300px;
-    margin: 20px auto;
-    background: white;
-    padding: 20px;
+/* 🔹 Styling for the welcome message */
+#welcome-message {
+    font-size: 1.1em;
+    font-weight: 500;
+}
+
+/* ✅ Make the username stand out with a different color */
+#welcome-message span {
+    color: var(--accent-color); /* Uses primary accent color */
+    font-weight: 600;
+}
+
+/* 🔹 Align the buttons to the right */
+.auth-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* 🔹 Style the buttons */
+button {
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 8px 14px;
+    font-size: 0.9em;
+    cursor: pointer;
     border-radius: 5px;
-    box-shadow: 0px 0px 10px gray;
+    transition: all 0.3s ease-in-out;
+    font-weight: 500;
 }
 
+button:hover {
+    background: var(--button-hover);
+}
+
+
+/* 📜 Authentication Form */
+#auth-form-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 15px auto;
+    background: var(--secondary-color);
+    padding: 20px;
+    border-radius: 6px;
+    box-shadow: 0px 0px 12px rgba(255, 255, 255, 0.1);
+    text-align: center;
+}
+
+/* 📌 Form Inputs */
 input, textarea, select {
     width: 100%;
     padding: 10px;
-    margin: 5px 0;
-    border: 1px solid #ccc;
+    margin: 6px 0;
+    border: none;
     border-radius: 5px;
+    background: var(--primary-color);
+    color: white;
+    outline: none;
+    text-align: center;
 }
 
+input::placeholder, textarea::placeholder {
+    color: var(--light-text);
+}
+
+/* 📝 Blog Section */
 #blog-section {
-    width: 70%;
-    margin: 20px auto;
+    width: 100%;
+    max-width: 700px;
+    margin: 15px auto;
     padding: 20px;
-    background: white;
-    border-radius: 5px;
-    box-shadow: 0px 0px 10px gray;
+    background: var(--secondary-color);
+    border-radius: 6px;
+    text-align: center;
 }
 
+/* 📌 Blog Post */
 .blog-post {
-    background: #fff;
-    margin-bottom: 15px;
+    background: var(--secondary-color);
+    margin: 10px auto;
     padding: 15px;
-    border-radius: 5px;
-    box-shadow: 0px 0px 5px gray;
+    border-radius: 6px;
+    box-shadow: 0px 3px 5px rgba(255, 255, 255, 0.05);
+    text-align: left;
+    border: 1px solid var(--white-border);  /* ✅ White Border */
 }
 
-.comment-section {
-    background: #f9f9f9;
-    padding: 10px;
-    margin-top: 10px;
+.blog-post h3 {
+    color: #fff;
+    font-size: 1.2em;
+    text-align: center;
 }
 
-.comment-input {
-    width: 80%;
-    padding: 5px;
+.blog-post p {
+    color: var(--light-text);
+    font-size: 0.95em;
+    line-height: 1.4;
 }
 
-.comment-btn {
-    padding: 5px;
+.blog-post small {
+    display: block;
+    margin-top: 8px;
+    font-size: 0.8em;
+    color: var(--light-text);
 }
 
-.blog-post {
-    background: white;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.comment-section {
-    margin-top: 10px;
-    padding: 10px;
-    background: #f4f4f4;
-    border-radius: 5px;
-}
-
-.blog-post {
-    background: white;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
+/* 🔹 Comment Section */
 .comment-section {
     margin-top: 10px;
     padding: 10px;
-    background: #f4f4f4;
+    background: var(--primary-color);
     border-radius: 5px;
-}
-
-.comment-input {
-    width: 80%;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.comment-btn {
-    padding: 5px;
-    background: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.comment-list {
-    margin-top: 10px;
-}
-
-.comment-list p {
-    background: #ddd;
-    padding: 5px;
-    border-radius: 4px;
-    margin: 5px 0;
-}
-
-
-.blog-post {
-    background: white;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.comment-section {
-    margin-top: 10px;
-    padding: 10px;
-    background: #f4f4f4;
-    border-radius: 5px;
-}
-
-.comment-input {
-    width: 80%;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.comment-btn {
-    padding: 5px;
-    background: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.comment-list {
-    margin-top: 10px;
+    text-align: center;
 }
 
 .comment-item {
-    background: #ddd;
-    padding: 5px;
-    border-radius: 4px;
-    margin: 5px 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-between; /* Keep comment text and buttons aligned */
     align-items: center;
+    background: var(--secondary-color);
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    margin-top: 5px;
+    text-align: left;
+}
+.comment-form {
+    display: flex;
+    align-items: center;
+    gap: 8px; /* Space between input and button */
 }
 
+.comment-input {
+    flex: 1; /* Takes available space */
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid var(--border-color);
+    background: var(--secondary-color);
+    color: white;
+}
+
+
+/*🔹 Comment Button */
+.comment-btn {
+    padding: 8px 12px;
+    background: var(--accent-color);
+    color: white;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    white-space: nowrap; /* Prevents button from stretching */
+}
+
+
+/* 🔹 Comment Text Styling */
+.comment-item p {
+    margin: 0;
+    flex-grow: 1; /* Takes remaining space, keeping buttons at the end */
+}
+
+/* 🔹 Small Buttons */
+.comment-item .edit-btn, 
+.comment-item .delete-btn {
+    background: red;
+    color: white;
+    border: none;
+    padding: 4px 8px; /* Smaller size */
+    margin-left: 5px;
+    cursor: pointer;
+    border-radius: 4px;
+    font-size: 0.8em; /* Reduce font size */
+}
+
+/* 🔹 Edit Button in Orange */
+.comment-item .edit-btn {
+    background: orange;
+}
+
+/* 🔹 Button Hover Effects */
+.comment-item .edit-btn:hover,
+.comment-item .delete-btn:hover {
+    opacity: 0.8;
+}
+
+
+/* ✏️ Edit & Delete Buttons */
 .edit-btn, .delete-btn {
     background: red;
     color: white;
     border: none;
-    padding: 5px;
-    margin-left: 5px;
+    padding: 5px 8px;
+    margin-left: 4px;
     cursor: pointer;
+    border-radius: 5px;
 }
 
 .edit-btn {
     background: orange;
 }
 
-
-
-.blog-post {
-    background: white;
-    margin: 10px;
-    padding: 15px;
-    border-radius: 8px;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-.comment-section {
-    margin-top: 10px;
-    padding: 10px;
-    background: #f4f4f4;
-    border-radius: 5px;
-}
-
-.comment-input {
-    width: 80%;
-    padding: 5px;
-    margin-right: 5px;
-}
-
-.comment-btn {
-    padding: 5px;
-    background: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.comment-list {
-    margin-top: 10px;
-}
-
-.comment-item {
-    background: #ddd;
-    padding: 5px;
-    border-radius: 4px;
-    margin: 5px 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.edit-btn, .delete-btn {
-    background: red;
-    color: white;
-    border: none;
-    padding: 5px;
-    margin-left: 5px;
-    cursor: pointer;
-}
-
-.edit-btn {
-    background: orange;
-}
-
-
-.hidden {
-    display: none;
-}
-
-#user-controls {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 10px;
-}
-
-button {
-    padding: 5px 10px;
-    background-color: blue;
-    color: white;
-    border: none;
-    cursor: pointer;
-    margin-left: 10px;
-}
-
-button:hover {
-    background-color: darkblue;
-}
-
-
+/* 📌 Sorting Buttons */
 #sort-buttons {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    text-align: center;
 }
 
 #sort-buttons button {
-    padding: 8px 12px;
-    background: blue;
+    padding: 8px 10px;
+    background: var(--accent-color);
     color: white;
     border: none;
     cursor: pointer;
-    margin-right: 5px;
+    border-radius: 5px;
+    font-weight: 500;
 }
 
 #sort-buttons button:hover {
-    background: darkblue;
+    background: var(--button-hover);
+}
+
+/* Remove default link styling */
+a {
+    text-decoration: none;  /* Removes underline */
+    color: inherit;         /* Inherits text color from parent */
+    font-size: inherit;     /* Matches surrounding text */
+    font-weight: inherit;   /* Keeps normal font weight */
+}
+
+/* Optional: Add hover effect if needed */
+a:hover {
+    color: inherit;  /* Prevents color change on hover */
+    text-decoration: none; /* No underline on hover */
+    cursor: pointer; /* Keeps it clickable */
+}
+
+
+/* ✅ Responsive Design */
+@media screen and (max-width: 768px) {
+    .container {
+        width: 95%;
+    }
+
+    #blog-section {
+        width: 95%;
+    }
+
+    #auth-form-container {
+        width: 90%;
+    }
+
+    .comment-input {
+        width: 100%;
+    }
+
+    .blog-post {
+        padding: 12px;
+    }
+
+    button {
+        width: 100%;
+    }
 }

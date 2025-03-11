@@ -1,5 +1,12 @@
 const sqlite3 = require("sqlite3").verbose();
-const db = new sqlite3.Database("./blog.db");
+
+const db = new sqlite3.Database("blog.db", (err) => {
+    if (err) {
+        console.error("❌ Database Connection Error:", err.message);
+    } else {
+        console.log("✅ Connected to SQLite database.");
+    }
+});
 
 // Create Tables
 db.serialize(() => {

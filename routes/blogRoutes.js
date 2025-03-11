@@ -18,6 +18,7 @@ router.post("/", (req, res) => {
         });
 });
 
+
 // ✅ Fetch All Blogs (GET)
 router.get("/", (req, res) => {
     db.all("SELECT blogs.*, users.name AS author_name FROM blogs JOIN users ON blogs.author_id = users.id ORDER BY timestamp DESC", 
@@ -70,30 +71,6 @@ router.delete("/:id", (req, res) => {
 
 
 
-// ✅ Fetch Blogs with Sorting
-router.get("/", (req, res) => {
-    const { sort } = req.query;
 
-    let query = `
-        SELECT blogs.*, users.name AS author_name,
-        (SELECT COUNT(*) FROM comments WHERE comments.blog_id = blogs.id) AS comment_count
-        FROM blogs
-        JOIN users ON blogs.author_id = users.id
-    `;
-
-    if (sort === "comments") {
-        query += " ORDER BY comment_count DESC";  // Sort by number of comments
-    } else {
-        query += " ORDER BY blogs.timestamp DESC"; // Default: Sort by date/time
-    }
-
-    db.all(query, [], (err, blogs) => {
-        if (err) {
-            console.error("Error retrieving blogs:", err);
-            return res.status(500).send("Error retrieving blogs.");
-        }
-        res.json(blogs);
-    });
-});
 
 module.exports = router;

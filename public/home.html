@@ -11,20 +11,20 @@
     <header>
         <h1>Blog Management System</h1>
         <div id="user-controls">
-            <!-- This will be dynamically updated by JavaScript -->
             <span id="welcome-message"></span>
-            <button id="login-btn" onclick="window.location.href='login.html'">Login</button>
-            <button id="logout-btn" class="hidden">Logout</button>
-        </div>
+            <div class="auth-buttons">
+                <button id="login-btn" onclick="window.location.href='login.html'">Login</button>
+                <button id="logout-btn" style="display: none;">Logout</button>
+            </div>
+        </div>        
     </header>
 
     <div class="container">
-        <h2>All Blogs</h2>
-        <button id="write-blog-btn" class="hidden">Write a Blog</button>
-
+        <div>
+            <h3>All Blogs</h3>
+            <button id="write-blog-btn" style="display: none;">Write a Blog</button>
+        </div>
         <div class="container">
-            <h2>All Blogs</h2>
-            <button id="write-blog-btn" class="hidden">Write a Blog</button>
         
             <!-- ✅ Sorting Buttons -->
             <div id="sort-buttons">

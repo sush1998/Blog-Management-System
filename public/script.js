@@ -13,37 +13,35 @@ document.addEventListener("DOMContentLoaded", () => {
     let username = localStorage.getItem("username");
     let user_id = localStorage.getItem("user_id");
 
-
-    // ✅ Show/hide UI elements based on login status
-    if (user_id) {
-        // User is logged in
-        if (welcomeMessage) welcomeMessage.textContent = `Hello, ${username}`;
-        if (loginBtn) loginBtn.classList.add("hidden");
-        if (logoutBtn) logoutBtn.classList.remove("hidden");
-        if (writeBlogBtn && role === "author") writeBlogBtn.classList.remove("hidden");
-    } else {
-        // User is not logged in
-        if (welcomeMessage) welcomeMessage.textContent = "Login to comment or write a blog";
-        if (loginBtn) loginBtn.classList.remove("hidden");
-        if (logoutBtn) logoutBtn.classList.add("hidden");
-        if (writeBlogBtn) writeBlogBtn.classList.add("hidden");
-    }
-
     // ✅ Update the welcome message only if logged in
-    if (welcomeMessage) {
-        if (username) {
-            welcomeMessage.textContent = `Hello ${username}, what's on your mind today?`;
-        } else {
-            welcomeMessage.style.display = "none"; // Hide if not logged in
+    if (user_id) {
+        // ✅ User is logged in - show username in a different color
+        if (welcomeMessage) {
+            welcomeMessage.innerHTML = `Hey <span>${username}</span>, your ideas matter!`;
+            welcomeMessage.style.display = "block";
         }
+        if (loginBtn) loginBtn.style.display = "none"; 
+        if (logoutBtn) logoutBtn.style.display = "inline-block";
+    } else {
+        // ✅ User is not logged in
+        if (welcomeMessage) {
+            welcomeMessage.textContent = "Login to comment or write a blog";
+            welcomeMessage.style.display = "block";
+        }
+        if (loginBtn) loginBtn.style.display = "inline-block"; 
+        if (logoutBtn) logoutBtn.style.display = "none";
     }
 
     // ✅ Show "Write Blog" button only for authors
-    if (writeBlogBtn && role === "author") {
-        writeBlogBtn.classList.remove("hidden");
-        writeBlogBtn.addEventListener("click", () => {
-            window.location.href = "write-blog.html";
-        });
+    if (writeBlogBtn) {
+        if (role && role.trim().toLowerCase() === "author") {
+            writeBlogBtn.style.display = "inline-block";  // ✅ Show for authors
+            writeBlogBtn.addEventListener("click", () => {
+                window.location.href = "write-blog.html";
+            });
+        } else {
+            writeBlogBtn.style.display = "none";  // ❌ Hide for non-authors
+        }
     }
 
     // ✅ Logout functionality
@@ -118,10 +116,11 @@ document.addEventListener("DOMContentLoaded", () => {
                 blogDiv.classList.add("blog-post");
                 blogDiv.innerHTML = `
                     <h3>${blog.title}</h3>
+                    <hr>
                     <p>${blog.content}</p>
-                    <small>Posted by ${blog.author_name} on: ${blog.timestamp}</small>
-                    <small> | Comments: ${blog.comment_count}</small>
-
+                    <small>Posted by <strong class="blog-author-name">${blog.author_name}</strong> on: ${blog.timestamp}</small>
+                    <small> Comments: ${blog.comment_count}</small>
+                    <br>
                     ${user_id == blog.author_id ? `
                     <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
                     <button onclick="deleteBlog(${blog.id})">Delete</button>
@@ -129,8 +128,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
                     <div class="comment-section" id="comments-${blog.id}">
                         ${user_id ? `
-                        <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
-                        <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
+                        <div class="comment-form">
+                            <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
+                            <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
+                        </div>
                         ` : '<p class="login-warning">Login to post comments</p>'}
                         <div class="comment-list"></div>
                     </div>
@@ -172,7 +173,6 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-
     // ✅ Load comments for a blog
     async function loadComments(blog_id) {
         try {
@@ -188,13 +188,13 @@ document.addEventListener("DOMContentLoaded", () => {
             comments.forEach(comment => {
                 commentListHTML += `
                     <div class="comment-item">
-                        <p>
-                            <strong>${comment.commenter_name}:</strong> ${comment.comment_text}
-                        </p>
+                        <p><strong>${comment.commenter_name}:</strong> ${comment.comment_text}</p>
+                        <div class="comment-buttons">
                         ${user_id == comment.user_id ? `
                             <button class="edit-btn" onclick="editComment(${comment.id}, ${blog_id})">Edit</button>
                             <button class="delete-btn" onclick="deleteComment(${comment.id}, ${blog_id})">Delete</button>
-                        ` : ""}
+                            ` : ""}
+                        </div>
                     </div>
                 `;
             });
