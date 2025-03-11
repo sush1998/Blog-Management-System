@@ -3,32 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Blog System</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <h1>Blog System</h1>
-        <button id="logout-btn">Logout</button>
-    </header>
 
-    <!-- 🔹 New Welcome Container -->
-    <div class="container" id="welcome-container">
-        <h2 id="welcome-message">Hello, what's on your mind today?</h2>
-    </div>
+    <header>
+        <h1>Blog Management System</h1>
+        <div id="user-controls">
+            <!-- This will be dynamically updated by JavaScript -->
+            <span id="welcome-message"></span>
+            <button id="login-btn" onclick="window.location.href='login.html'">Login</button>
+            <button id="logout-btn" class="hidden">Logout</button>
+        </div>
+    </header>
 
     <div class="container">
         <h2>All Blogs</h2>
         <button id="write-blog-btn" class="hidden">Write a Blog</button>
 
-        <div id="sort-options">
-            <button id="sort-date">Sort by Date</button>
-            <button id="sort-comments">Sort by Comments</button>
+        <div class="container">
+            <h2>All Blogs</h2>
+            <button id="write-blog-btn" class="hidden">Write a Blog</button>
+        
+            <!-- ✅ Sorting Buttons -->
+            <div id="sort-buttons">
+                <button onclick="loadBlogs('date')">Sort by Date</button>
+                <button onclick="loadBlogs('comments')">Sort by Comments</button>
+            </div>
+        
+            <div id="blogs-container"></div>
         </div>
+        
 
         <div id="blogs-container"></div>
     </div>
 
     <script src="script.js"></script>
+
 </body>
 </html>
