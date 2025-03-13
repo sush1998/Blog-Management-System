@@ -21,15 +21,40 @@ router.post("/", (req, res) => {
 
 // ✅ Fetch All Blogs (GET)
 router.get("/", (req, res) => {
-    db.all("SELECT blogs.*, users.name AS author_name FROM blogs JOIN users ON blogs.author_id = users.id ORDER BY timestamp DESC", 
-    [], (err, blogs) => {
+    const sort = req.query.sort;
+    let orderClause;
+
+    if (sort === "time-asc") {
+        orderClause = "ORDER BY blogs.timestamp ASC";
+    } else if (sort === "time-desc") {
+        orderClause = "ORDER BY blogs.timestamp DESC";
+    } else if (sort === "comments-asc") {
+        orderClause = "ORDER BY comment_count ASC";
+    } else if (sort === "comments-desc") {
+        orderClause = "ORDER BY comment_count DESC";
+    } else {
+        // Default: sort by newest time
+        orderClause = "ORDER BY blogs.timestamp DESC";
+    }
+
+    const query = `
+        SELECT blogs.id, blogs.title, blogs.content, blogs.timestamp, blogs.author_id, 
+               users.name AS author_name,
+               (SELECT COUNT(*) FROM comments WHERE comments.blog_id = blogs.id) AS comment_count
+        FROM blogs
+        LEFT JOIN users ON blogs.author_id = users.id
+        ${orderClause};
+    `;
+
+    db.all(query, [], (err, rows) => {
         if (err) {
             console.error("Error retrieving blogs:", err);
-            return res.status(500).send("Error retrieving blogs.");
+            return res.status(500).json({ error: "Failed to fetch blogs" });
         }
-        res.json(blogs);
+        res.json(rows);
     });
 });
+
 
 // ✅ Update a Blog (PUT)
 router.put("/:id", (req, res) => {

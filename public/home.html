@@ -27,10 +27,11 @@
         <div class="container">
         
             <!-- ✅ Sorting Buttons -->
-            <div id="sort-buttons">
-                <button onclick="loadBlogs('date')">Sort by Date</button>
-                <button onclick="loadBlogs('comments')">Sort by Comments</button>
+            <div id="sort-buttons" style="text-align: center; margin-bottom: 15px;">
+                <button id="time-sort-btn" onclick="toggleTimeSort()">Show the oldest first</button>
+                <button id="comment-sort-btn" onclick="toggleCommentSort()">Sort by Least Comments</button>
             </div>
+            
         
             <div id="blogs-container"></div>
         </div>

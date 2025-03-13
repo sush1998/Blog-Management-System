@@ -1,3 +1,9 @@
+const backend='blog-management-system-production.up.railway.app'
+let h  = "desc";
+let currentTimeSortOrder = "time-desc";      // Default: newest first
+let currentCommentSortOrder = "comments-desc"; // Default: most comments first
+
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
@@ -7,6 +13,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const logoutBtn = document.getElementById("logout-btn");
     const loginBtn = document.getElementById("login-btn");
     const welcomeMessage = document.getElementById("welcome-message");
+    const timeSortBtn = document.getElementById("time-sort-btn");
+    const commentSortBtn = document.getElementById("comment-sort-btn");
 
     let token = localStorage.getItem("token");
     let role = localStorage.getItem("role");
@@ -105,44 +113,71 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     // ✅ Load all blogs
-    window.loadBlogs = async function(sortBy = "date") {  
+    // Make loadBlogs a global function so it can be called later.
+      // Global loadBlogs function
+    window.loadBlogs = async function(sort = "time-desc") {
         try {
-            const response = await fetch(`/blogs?sort=${sortBy}`);
+            const response = await fetch(`/blogs?sort=${sort}`);
             const blogs = await response.json();
             blogsContainer.innerHTML = "";
-    
+
             blogs.forEach(async (blog) => {
                 const blogDiv = document.createElement("div");
                 blogDiv.classList.add("blog-post");
                 blogDiv.innerHTML = `
                     <h3>${blog.title}</h3>
+                    <hr>
                     <p>${blog.content}</p>
                     <small>Posted by <strong>${blog.author_name}</strong> on: ${blog.timestamp}</small>
-                    <small> Comments: <strong>${blog.comment_count}</strong></small>
+                    <small>Comments: <strong>${blog.comment_count}</strong></small>
                     <br>
                     ${user_id == blog.author_id ? `
-                    <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
-                    <button onclick="deleteBlog(${blog.id})">Delete</button>
+                        <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
+                        <button onclick="deleteBlog(${blog.id})">Delete</button>
                     ` : ""}
-    
                     <div class="comment-section" id="comments-${blog.id}">
                         ${user_id ? `
-                        <div class="comment-form">
-                            <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
-                            <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
-                        </div>
+                            <div class="comment-form">
+                                <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
+                                <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
+                            </div>
                         ` : '<p class="login-warning">Login to post comments</p>'}
                         <div class="comment-list"></div>
                     </div>
                 `;
-    
                 blogsContainer.appendChild(blogDiv);
                 loadComments(blog.id);
             });
         } catch (error) {
-            console.error("❌ Error loading blogs:", error);
+            console.error("Error loading blogs:", error);
         }
     };
+
+    // Toggle time sort order
+    window.toggleTimeSort = function() {
+        if (currentTimeSortOrder === "time-desc") {
+            currentTimeSortOrder = "time-asc";
+            timeSortBtn.textContent = "Show the newest first";
+        } else {
+            currentTimeSortOrder = "time-desc";
+            timeSortBtn.textContent = "Sort the oldest first";
+        }
+        loadBlogs(currentTimeSortOrder);
+    };
+
+    // Toggle comment sort order
+    window.toggleCommentSort = function() {
+        if (currentCommentSortOrder === "comments-desc") {
+            currentCommentSortOrder = "comments-asc";
+            commentSortBtn.textContent = "Sort by Most Comments";
+        } else {
+            currentCommentSortOrder = "comments-desc";
+            commentSortBtn.textContent = "Sort by Least Comments";
+        }
+        loadBlogs(currentCommentSortOrder);
+    };
+
+    
     
     
 
@@ -309,3 +344,5 @@ document.addEventListener("DOMContentLoaded", () => {
 
     if (blogsContainer) loadBlogs();
 });
+
+
