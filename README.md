@@ -13,7 +13,7 @@ A **full-stack web application** built using **Node.js**, **Express.js**, **SQLi
 ## 🚀 Live Demo
 
 🌐 [Live Website](https://your-frontend-link.com)  
-🔗 [Backend API on Railway](https://your-backend-link.railway.app)  
+🔗 [Backend API on Railway](https://blog-management-system-production.up.railway.app)  
 
 ---
 
