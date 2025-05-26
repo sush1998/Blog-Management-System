@@ -4,6 +4,7 @@ let currentTimeSortOrder = "time-desc";      // Default: newest first
 let currentCommentSortOrder = "comments-desc"; // Default: most comments first
 
 
+
 document.addEventListener("DOMContentLoaded", () => {
     const loginForm = document.getElementById("login-form");
     const registerForm = document.getElementById("register-form");
@@ -21,9 +22,9 @@ document.addEventListener("DOMContentLoaded", () => {
     let username = localStorage.getItem("username");
     let user_id = localStorage.getItem("user_id");
 
-    // ✅ Update the welcome message only if logged in
+    // Update the welcome message only if logged in
     if (user_id) {
-        // ✅ User is logged in - show username in a different color
+        //  User is logged in - show username in a different color
         if (welcomeMessage) {
             welcomeMessage.innerHTML = `Hey <span>${username}</span>, your ideas matter!`;
             welcomeMessage.style.display = "block";
@@ -31,7 +32,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (loginBtn) loginBtn.style.display = "none"; 
         if (logoutBtn) logoutBtn.style.display = "inline-block";
     } else {
-        // ✅ User is not logged in
+        //  User is not logged in
         if (welcomeMessage) {
             welcomeMessage.textContent = "Login to comment or write a blog";
             welcomeMessage.style.display = "block";
@@ -40,19 +41,20 @@ document.addEventListener("DOMContentLoaded", () => {
         if (logoutBtn) logoutBtn.style.display = "none";
     }
 
-    // ✅ Show "Write Blog" button only for authors
+    //  Show "Write Blog" button only for authors
     if (writeBlogBtn) {
+        //  Check if user is logged in and has the role of "author"
         if (role && role.trim().toLowerCase() === "author") {
-            writeBlogBtn.style.display = "inline-block";  // ✅ Show for authors
+            writeBlogBtn.style.display = "inline-block";  //  Show for authors
             writeBlogBtn.addEventListener("click", () => {
                 window.location.href = "write-blog.html";
             });
         } else {
-            writeBlogBtn.style.display = "none";  // ❌ Hide for non-authors
+            writeBlogBtn.style.display = "none";  //  Hide for non-authors
         }
     }
 
-    // ✅ Logout functionality
+    //  Logout functionality
     if (logoutBtn) {
         logoutBtn.addEventListener("click", () => {
             localStorage.clear();
@@ -87,7 +89,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
 
-    // ✅ Handle User Registration
+    //  Handle User Registration
     if (registerForm) {
         registerForm.addEventListener("submit", async (e) => {
             e.preventDefault();
@@ -96,12 +98,13 @@ document.addEventListener("DOMContentLoaded", () => {
             const password = document.getElementById("password").value;
             const role = document.getElementById("role").value;
 
+            // Validate role
             const response = await fetch("/auth/register", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ name, email, password, role })
             });
-
+            // Handle the response
             const data = await response.json();
             if (response.ok) {
                 alert("Registration successful! Please login.");
@@ -112,15 +115,16 @@ document.addEventListener("DOMContentLoaded", () => {
         });
     }
 
-    // ✅ Load all blogs
+    // Load all blogs and append them to the blogs container
     // Make loadBlogs a global function so it can be called later.
-      // Global loadBlogs function
+    // Global loadBlogs function with window context
     window.loadBlogs = async function(sort = "time-desc") {
         try {
             const response = await fetch(`/blogs?sort=${sort}`);
             const blogs = await response.json();
             blogsContainer.innerHTML = "";
 
+            // Sort blogs based on the current sort order
             blogs.forEach(async (blog) => {
                 const blogDiv = document.createElement("div");
                 blogDiv.classList.add("blog-post");
@@ -128,15 +132,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>${blog.title}</h3>
                     <hr>
                     <p>${blog.content}</p>
+                    // Display author name and timestamp
                     <small>Posted by <strong>${blog.author_name}</strong> on: ${blog.timestamp}</small>
                     <small>Comments: <strong>${blog.comment_count}</strong></small>
                     <br>
+                    // Add buttons for editing and deleting blogs
                     ${user_id == blog.author_id ? `
                         <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
                         <button onclick="deleteBlog(${blog.id})">Delete</button>
                     ` : ""}
+                    // Comment section
                     <div class="comment-section" id="comments-${blog.id}">
                         ${user_id ? `
+                            // Comment form
                             <div class="comment-form">
                                 <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
                                 <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
@@ -145,6 +153,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         <div class="comment-list"></div>
                     </div>
                 `;
+                // Append the blog post to the Blog container
                 blogsContainer.appendChild(blogDiv);
                 loadComments(blog.id);
             });
@@ -155,6 +164,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Toggle time sort order
     window.toggleTimeSort = function() {
+        // Toggle between "time-desc" and "time-asc"
         if (currentTimeSortOrder === "time-desc") {
             currentTimeSortOrder = "time-asc";
             timeSortBtn.textContent = "Show the newest first";
@@ -167,6 +177,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Toggle comment sort order
     window.toggleCommentSort = function() {
+        // Toggle between "comments-desc" and "comments-asc"
+         
         if (currentCommentSortOrder === "comments-desc") {
             currentCommentSortOrder = "comments-asc";
             commentSortBtn.textContent = "Sort by Most Comments";
@@ -181,25 +193,28 @@ document.addEventListener("DOMContentLoaded", () => {
     
     
 
-    // ✅ Submit a blog
+    //  Submit a blog
     if (blogForm) {
         blogForm.addEventListener("submit", async (e) => {
             e.preventDefault();
-
             const title = document.getElementById("blog-title").value;
             const content = document.getElementById("blog-content").value;
 
+            // Validate user_id and role is "author" and ensure they are not empty
             if (!user_id || role !== "author") {
                 alert("Only authors can post blogs.");
                 return;
             }
-
+           
+            
             const response = await fetch("/blogs", {
+                //  Use the correct endpoint for posting blogs
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({ title, content, author_id: user_id })
             });
 
+            // Handle the response
             if (response.ok) {
                 alert("Blog posted successfully!");
                 window.location.href = "home.html";
@@ -208,23 +223,29 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     }
-    // ✅ Load comments for a blog
+
+    //  Load comments for a blog
     async function loadComments(blog_id) {
         try {
             const response = await fetch(`/comments/${blog_id}`);
             const comments = await response.json();
     
-            // ✅ Get the correct comment section container
+            //  Get the correct comment section container
             const commentSection = document.getElementById(`comments-${blog_id}`);
             if (!commentSection) return;
     
-            // ✅ Clear existing comments before appending new ones
+            //  Clear existing comments before appending new ones
             let commentListHTML = '<div class="comment-list">';
             comments.forEach(comment => {
                 commentListHTML += `
+                //  Create a comment item with buttons for editing and deleting
+
                     <div class="comment-item">
                         <p><strong>${comment.commenter_name}:</strong> ${comment.comment_text}</p>
                         <div class="comment-buttons">
+
+                        //  Show edit and delete buttons only for the comment author
+
                         ${user_id == comment.user_id ? `
                             <button class="edit-btn" onclick="editComment(${comment.id}, ${blog_id})">Edit</button>
                             <button class="delete-btn" onclick="deleteComment(${comment.id}, ${blog_id})">Delete</button>
@@ -235,7 +256,7 @@ document.addEventListener("DOMContentLoaded", () => {
             });
             commentListHTML += "</div>";
     
-            // ✅ Ensure comments display in the correct section
+            //  Ensure comments display in the correct section
             commentSection.querySelector(".comment-list").innerHTML = commentListHTML;
     
         } catch (error) {
@@ -243,16 +264,17 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    // ✅ Add a comment
+    //  Add a comment
     window.addComment = async function(blog_id) {
         const commentInput = document.getElementById(`comment-input-${blog_id}`);
         const commentText = commentInput.value;
-    
+        
+        // Validate comment text and user_id
         if (!user_id) {
             alert("You must be logged in to post a comment.");
             return;
         }
-    
+        
         const response = await fetch("/comments", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -268,10 +290,12 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     
 
-    // ✅ Edit a blog
+    //  Edit a blog
     window.editBlog = async function(blogId, oldTitle, oldContent) {
         const newTitle = prompt("Enter new title:", oldTitle);
         const newContent = prompt("Enter new content:", oldContent);
+
+        // Validate new title and content
         if (!newTitle || !newContent) return;
 
         const response = await fetch(`/blogs/${blogId}`, {
@@ -289,7 +313,7 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
 
-    // ✅ Delete a blog
+    //  Delete a blog
     window.deleteBlog = async function(blogId) {
         if (!confirm("Are you sure you want to delete this blog?")) return;
 
@@ -307,9 +331,10 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // ✅ Edit a comment
+    //  Edit a comment
     window.editComment = async function(commentId) {
         const newComment = prompt("Edit your comment:");
+        // Validate new comment
         if (!newComment) return;
 
         const response = await fetch(`/comments/${commentId}`, {
@@ -325,8 +350,9 @@ document.addEventListener("DOMContentLoaded", () => {
         }
     };
 
-    // ✅ Delete a comment
+    //  Delete a comment
     window.deleteComment = async function(commentId) {
+        // Confirm deletion with an confirmation dialog
         if (!confirm("Are you sure you want to delete this comment?")) return;
 
         const response = await fetch(`/comments/${commentId}`, {
