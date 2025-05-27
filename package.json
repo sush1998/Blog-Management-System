@@ -11,13 +11,13 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^3.0.2",
+    "better-sqlite3": "^11.10.0",
     "body-parser": "^1.20.3",
     "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "express-session": "^1.18.1",
-    "jsonwebtoken": "^9.0.2",
-    "sqlite3": "^5.1.7"
+    "jsonwebtoken": "^9.0.2"
   },
   "description": ""
 }
