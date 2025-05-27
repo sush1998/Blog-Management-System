@@ -12,7 +12,7 @@ A **full-stack web application** built using **Node.js**, **Express.js**, **SQLi
 
 ## 🚀 Live Demo
 
-🌐 [Live Website/ Backend API on Railway](https://blog-management-system-production.up.railway.app)  
+🌐 [Live Website/ Backend API on Railway](https://blog-management-system-production.up.railway.app/)  
 
 ---
 
@@ -66,6 +66,38 @@ Blog-Management-System/
 
 ---
 
+API Endpoints Summary
+The Blog Management System exposes a RESTful API for user authentication, blog post management, and user role-based access control.
+
+🔐 Authentication (/auth)
+
+| Method | Endpoint         | Description                   |
+| ------ | ---------------- | ----------------------------- |
+| POST   | `/auth/register` | Register a new user           |
+| POST   | `/auth/login`    | Authenticate user and get JWT |
+
+📝 Blog Management (/blogs)
+
+| Method | Endpoint            | Description                      |
+| ------ | ------------------- | -------------------------------- |
+| GET    | `/blogs/`           | Retrieve all blog posts          |
+| GET    | `/blogs/:id`        | Get a single blog post by ID     |
+| POST   | `/blogs/`           | Create a new blog post (auth)    |
+| PUT    | `/blogs/:id/`       | Update an existing post (auth)   |
+| DELETE | `/blogs/:id/`       | Delete a post by ID (auth)       |
+
+🛡️ Create, update, and delete operations require a valid JWT token.
+
+💬 Comments API (/comments)
+
+| Method | Endpoint             | Description                                    |
+| ------ | -------------------- | ---------------------------------------------- |
+| POST   | `/comments/`         | Add a comment to a blog post (auth required)   |
+| GET    | `/comments/:blog_id` | Fetch all comments for a specific blog post    |
+| PUT    | `/comments/:id`      | Update a comment(must be owner of the comment) |
+| DELETE | `/comments/:id`      | Delete a comment(must be owner of the comment) |
+
+
 ## 🛠️ Tech Stack
 
 - **Frontend:** HTML, CSS, JavaScript (Vanilla)
@@ -85,7 +117,7 @@ Blog-Management-System/
 | Comment System     | Reader can add/edit/delete comments          | ✅      |
 | Sorting Blogs      | Toggle between time & comment-based sorting  | ✅      |
 | Role-Based Access  | Buttons/Access change based on user role     | ✅      |
-| Responsiveness     | Works on mobile, tablet, desktop              | ✅      |
+| Responsiveness     | Works on mobile, tablet, desktop             | ✅      |
 
 ---
 
