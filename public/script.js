@@ -132,19 +132,19 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h3>${blog.title}</h3>
                     <hr>
                     <p>${blog.content}</p>
-                    // Display author name and timestamp
+                    
                     <small>Posted by <strong>${blog.author_name}</strong> on: ${blog.timestamp}</small>
                     <small>Comments: <strong>${blog.comment_count}</strong></small>
                     <br>
-                    // Add buttons for editing and deleting blogs
+                    
                     ${user_id == blog.author_id ? `
                         <button onclick="editBlog(${blog.id}, '${blog.title}', '${blog.content}')">Edit</button>
                         <button onclick="deleteBlog(${blog.id})">Delete</button>
                     ` : ""}
-                    // Comment section
+                    
                     <div class="comment-section" id="comments-${blog.id}">
                         ${user_id ? `
-                            // Comment form
+                            
                             <div class="comment-form">
                                 <input class="comment-input" id="comment-input-${blog.id}" placeholder="Add a comment">
                                 <button class="comment-btn" onclick="addComment(${blog.id})">Post</button>
@@ -238,13 +238,13 @@ document.addEventListener("DOMContentLoaded", () => {
             let commentListHTML = '<div class="comment-list">';
             comments.forEach(comment => {
                 commentListHTML += `
-                //  Create a comment item with buttons for editing and deleting
+                
 
                     <div class="comment-item">
                         <p><strong>${comment.commenter_name}:</strong> ${comment.comment_text}</p>
                         <div class="comment-buttons">
 
-                        //  Show edit and delete buttons only for the comment author
+                        
 
                         ${user_id == comment.user_id ? `
                             <button class="edit-btn" onclick="editComment(${comment.id}, ${blog_id})">Edit</button>
